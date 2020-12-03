@@ -2,6 +2,7 @@ import styles from "../styles/components/Label.module.scss";
 
 
 const Label = ({ children, href, style }) => (
+  
   <div>
     <label
       // className={styles.Label}
