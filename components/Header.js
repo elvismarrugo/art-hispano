@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import ThemeContext from "../context/ThemeContext";
 import { auth } from "../firebase/firebase.config";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import styles from "../styles/components/Navbar.module.scss";
 const Header = () => {
   const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
+  const color = useContext(ThemeContext);
 
   // const handleClick = () => {
   //   setDarkMode(!darkMode);
@@ -61,7 +63,7 @@ const Header = () => {
               validateLogin();
             }}
           >
-            no Vender
+            <h1 style={{ color }}>no Vender</h1>
           </Button>
 
           <Button

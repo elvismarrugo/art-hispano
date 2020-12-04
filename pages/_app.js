@@ -1,6 +1,7 @@
 import Layout from "@components/Layout";
 import { auth } from "../firebase/firebase.config";
 import { useEffect, useState } from "react";
+import ThemeContext from "../context/ThemeContext";
 import "@styles/globals.scss"
 
 import { Provider } from "react-redux";
@@ -22,11 +23,13 @@ export default function MyApp({ Component, pageProps }) {
    }, []);
    
   return firebaseUser !== false ? (
-      <Provider store={store}>
-        <Layout firebaseUser={firebaseUser}>
-            <Component {...pageProps} />
-        </Layout>
-      </Provider>
+      <ThemeContext.Provider value="blue">
+        <Provider store={store}>
+            <Layout firebaseUser={firebaseUser}>
+                <Component {...pageProps} />
+            </Layout>
+        </Provider>
+      </ThemeContext.Provider>
   ) : (
     <div>Cargando;</div>
   );
