@@ -1,21 +1,26 @@
 import { useState, useContext } from "react";
-import ThemeContext from "../context/ThemeContext";
+import ThemeContext from "../context/AppContext";
 import { auth } from "../firebase/firebase.config";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Button from "components/Button";
 import styles from "../styles/components/Navbar.module.scss";
 
+
 const Header = () => {
   const router = useRouter();
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);  
+  // const [search, setSearch] = useState("");
   const color = useContext(ThemeContext);
 
-  // const handleClick = () => {
-  //   setDarkMode(!darkMode);
-  // }
+  // const [product, setProduct] = useState([]);
+  //  const filteredProducts = product.filter(item);
 
-  const validateLogin = () => {
+  //  const handleSearch = (event) => {
+  //    setSearch(event.target.value);
+  //  };
+
+   const validateLogin = () => {
     auth.onAuthStateChanged((user) => {
       console.log(user);
       if (user) {

@@ -1,36 +1,69 @@
-import { useState, useEffect } from "react";
-import { db } from "../firebase/firebase.config";
+import { useState,  useMemo, useRef } from "react";
+// import { db } from "../firebase/firebase.config";
 import styles from "../styles/pages/Index.module.scss";
 import ProductCard from "../components/ProductCard";
 import LineTitle from "@components/LineTitle";
+import Search from "../components/Search";
 
 export default function Home() {
   // const router = useRouter();
   // const { id } = router.query;
 
-  const [product, setProduct] = useState([]);
+  const [products] = useState([]);
+  const [search, setSearch] = useState("");
+  const searchInput = useRef(null);
   // const [ setError] = useState(null);
 
-  const getProduct = async () => {
-    try {
-      const data = await db.collection("products").limit(4).get();
-      const arrayData = data.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      console.log(arrayData);
-      setProduct(arrayData);
-    } catch (error) {
-      // setError(error);
-      console.log(error)
-    }
+  const handleSearch = () => {
+    setSearch(searchInput.current.value);
   };
 
-  useEffect(() => {
-    getProduct();
-  }, []);
+  const filteredProducts = useMemo(
+    () =>
+      products.filter((item) => {
+        return products.name.toLowerCase().includes(search.toLowerCase());
+      }),
+    [products, search]
+  );
+
+  // {filteredProducts.map(product => (
+  //   <div className="item" key={product.id}>
+  //        <ProductCard
+  //           id={item.id}
+  //           key={item.id}
+  //           imgUrl={item.image}
+  //           price={item.price}
+  //         />
+  //   </div>
+  // ))
+  // }
+
+  // const getProduct = async () => {
+  //   try {
+  //     const data = await db.collection("products").limit(4).get();
+  //     const arrayData = data.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }));
+  //     console.log(arrayData);
+  //     setProduct(arrayData);
+  //   } catch (error) {
+  //     // setError(error);
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getProduct();
+  // }, []);
+
   return (
     <>
+      <Search
+        search={search}
+        searchInput={searchInput}
+        handleSearch={handleSearch}
+      />
       <div className={styles.slider}>
         <div className={styles.carusel}>
           <img src="home.png" alt="" />
@@ -40,8 +73,8 @@ export default function Home() {
           <div className={styles.products_container}>
             <div>
               <LineTitle text={"Productos Destacados"} />
-              <div className={styles.products_container_info}>                
-                {product.map((item) => (
+              <div className={styles.products_container_info}>
+                {filteredProducts.map((item) => (
                   <ProductCard
                     id={item.id}
                     key={item.id}
@@ -52,8 +85,8 @@ export default function Home() {
               </div>
 
               <LineTitle text={"Recomendados para ti"} />
-              <div className={styles.products_container_info}>                
-                {product.map((item) => (
+              <div className={styles.products_container_info}>
+                {filteredProducts.map((item) => (
                   <ProductCard
                     id={item.id}
                     key={item.id}
@@ -64,8 +97,8 @@ export default function Home() {
               </div>
 
               <LineTitle text={"Novedades"} />
-              <div className={styles.products_container_info}>                
-                {product.map((item) => (
+              <div className={styles.products_container_info}>
+                {filteredProducts.map((item) => (
                   <ProductCard
                     id={item.id}
                     key={item.id}

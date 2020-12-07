@@ -1,7 +1,7 @@
 import Layout from "@components/Layout";
 import { auth } from "../firebase/firebase.config";
 import { useEffect, useState } from "react";
-import ThemeContext from "../context/ThemeContext";
+import ThemeContext from "../context/AppContext";
 import "@styles/globals.scss"
 
 import { Provider } from "react-redux";
